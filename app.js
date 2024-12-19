@@ -9,6 +9,14 @@ class Despesa{
         this.valor = valor
     }
 
+    validarDados(){
+        for(let i in this){
+            if(this[i] == undefined || this[i] == '' || this[i] == null){
+                return false
+            }
+        }
+        return true
+    }
 }
 
 class Bd {
@@ -30,9 +38,9 @@ class Bd {
 
         let id = this.getProximoId()
 
-        localStorage.setItem(id, JSON.stringify(d))
-
         localStorage.setItem('id', id)
+        
+        localStorage.setItem(id, JSON.stringify(d))
     }
 }
 
@@ -56,7 +64,12 @@ function cadastrarDespesa() {
         valor.value
     )
 
-    bd.gravar(despesa)
+    if(despesa.validarDados()){
+        bd.gravar(despesa)
+        
+    } else{
+        console.log('Dados invalidos')
+    }
 }
 
 function gravar(d) {
