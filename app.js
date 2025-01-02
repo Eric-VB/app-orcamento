@@ -88,7 +88,12 @@ function cadastrarDespesa() {
 
     if(despesa.validarDados()){
         bd.gravar(despesa)
-        
+        ano.value = ''
+        mes.value = ''
+        dia.value = ''
+        tipo.value = ''
+        descricao.value = ''
+        valor.value = ''
     } else{
         console.log('Dados invalidos')
     }
