@@ -42,6 +42,28 @@ class Bd {
         
         localStorage.setItem(id, JSON.stringify(d))
     }
+
+    recuperarTodosRegistros() {
+
+        let despesas = Array()
+
+        let id = localStorage.getItem('id')
+
+        // recuperar todas as despesas e, localStorage
+        for(let i = 1; i <= id; i++){
+
+            // recuperar a despesa, tranforma de json para objeto
+            let despesa = JSON.parse(localStorage.getItem(i))
+
+            // verifica se há algum item com valor null ou caso tenha sido removido
+            if(despesa == null){
+                continue
+            }
+
+            despesas.push(despesa)
+        }
+        return despesas
+    }
 }
 
 let bd = new Bd()
@@ -74,4 +96,43 @@ function cadastrarDespesa() {
 
 function gravar(d) {
     localStorage.setItem('despesa', JSON.stringify(d))
+}
+
+
+
+// CONSULTA
+
+
+function carregaListaDespeza() {
+    let despesas = Array()
+
+    despesas = bd.recuperarTodosRegistros()
+
+    let listaDespesas = document.getElementById('listaDespesas')
+
+    despesas.forEach(function(d) {
+        console.log(d)
+
+        // criando uma linha para cada elemento do array
+        let linha = listaDespesas.insertRow()
+
+        // criar coluna
+        linha.insertCell(0).innerHTML = `${d.dia}/${d.mes}/${d.ano}`
+        
+        switch(d.tipo){
+            case '1': d.tipo = 'Alimentação'
+            break
+            case '2': d.tipo = 'Educação'
+            break
+            case '3': d.tipo = 'Lazer'
+            break
+            case '4': d.tipo = 'Saúde'
+            break
+            case '5': d.tipo = 'Transpoorte'
+        }
+        
+        linha.insertCell(1).innerHTML = d.tipo
+        linha.insertCell(2).innerHTML = d.descricao
+        linha.insertCell(3).innerHTML = d.valor
+    })
 }
