@@ -89,13 +89,13 @@ class Bd {
             despesasFiltradas = despesasFiltradas.filter(d => d.tipo == despesa.tipo)
 
         }
-        
+
         if(despesa.descricao != ''){
             despesasFiltradas = despesasFiltradas.filter(d => d.descricao == despesa.descricao)
 
         }
 
-        console.log(despesasFiltradas)
+        return
     }
 }
 
@@ -160,13 +160,18 @@ function carregaListaDespeza() {
         switch(d.tipo){
             case '1': d.tipo = 'Alimentação'
             break
+
             case '2': d.tipo = 'Educação'
             break
+
             case '3': d.tipo = 'Lazer'
             break
+
             case '4': d.tipo = 'Saúde'
             break
+
             case '5': d.tipo = 'Transpoorte'
+            break
         }
         
         linha.insertCell(1).innerHTML = d.tipo
@@ -184,5 +189,39 @@ function pesquisarDespesa() {
 
     let despesa = new Despesa(ano, mes, dia, tipo, descricao)
 
-    bd.pesquisar(despesa)
+    let despesas = bd.pesquisar(despesa)
+
+    let listaDespesas = document.getElementById('listaDespesas')
+    listaDespesas.innerHTML = ''
+
+    despesas.forEach(function(d) {
+        console.log(d)
+
+        // criando uma linha para cada elemento do array
+        let linha = listaDespesas.insertRow()
+
+        // criar coluna
+        linha.insertCell(0).innerHTML = `${d.dia}/${d.mes}/${d.ano}`
+        
+        switch(d.tipo){
+            case '1': d.tipo = 'Alimentação'
+            break
+
+            case '2': d.tipo = 'Educação'
+            break
+
+            case '3': d.tipo = 'Lazer'
+            break
+
+            case '4': d.tipo = 'Saúde'
+            break
+
+            case '5': d.tipo = 'Transpoorte'
+            break
+        }
+        
+        linha.insertCell(1).innerHTML = d.tipo
+        linha.insertCell(2).innerHTML = d.descricao
+        linha.insertCell(3).innerHTML = d.valor
+    })
 }
